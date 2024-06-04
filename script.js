@@ -3,24 +3,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('main section');
     const menuIcon = document.getElementById('menu-icon');
     const navLinks = document.getElementById('nav-links');
+    const submenuToggles = document.querySelectorAll('.submenu-toggle');
 
     links.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
+            if (!link.classList.contains('submenu-toggle')) {
+                e.preventDefault();
 
-            const sectionId = link.getAttribute('data-section');
-            sections.forEach(section => {
-                section.classList.add('hidden');
-            });
+                const sectionId = link.getAttribute('data-section');
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                });
 
-            document.getElementById(sectionId).classList.remove('hidden');
+                document.getElementById(sectionId).classList.remove('hidden');
 
-            // Hide the menu after clicking a link (for mobile view)
-            navLinks.classList.remove('show');
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('show');
+                }
+
+                // Hide all submenus when a link is clicked
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    submenu.classList.remove('show');
+                });
+            }
         });
     });
 
     menuIcon.addEventListener('click', () => {
         navLinks.classList.toggle('show');
+    });
+
+    submenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const submenu = toggle.nextElementSibling;
+            submenu.classList.toggle('show');
+        });
     });
 });
