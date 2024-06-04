@@ -77,6 +77,18 @@ footer {
     bottom: 0;
 }
 
+.centered-image {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+}
+
+.image-avatar {
+    display: block;
+    margin: 0 auto;
+    width: 30px;
+}
+
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
