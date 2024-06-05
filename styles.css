@@ -10,14 +10,18 @@ header {
     background-color: #1f1f1f;
     color: white;
     padding: 1rem 0;
-    text-align: center;
+    text-align: left;
     position: relative;
+    box-sizing: border-box;
 }
 
 nav {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: left;
+    padding-left: 1rem;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 nav .menu-icon {
@@ -31,11 +35,12 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-grow: 1;
 }
 
 nav ul li {
-    position: relative;
     margin: 0 1.5rem;
+    position: relative;
 }
 
 nav ul li a {
@@ -70,6 +75,16 @@ nav ul li .submenu.show {
     display: block;
 }
 
+nav .menu-icon {
+    display: none;
+    //font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 main {
     padding: 2rem;
     padding-bottom: 5rem;
@@ -95,11 +110,20 @@ p {
     line-height: 1.6;
 }
 
+code {
+    background-color: #2e2e2e; /* Gray background */
+    color: #ffffff; /* White text color for contrast */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    padding: 0.2rem 0.4rem; /* Add some padding for readability */
+    border-radius: 4px; /* Slightly rounded corners */
+    display: inline-block; /* Ensure the background and padding apply correctly */
+}
+
 footer {
     background-color: #1f1f1f;
     color: white;
     text-align: center;
-    padding: 1rem 0;
+    padding: 0.1rem 0;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -117,13 +141,30 @@ footer {
     width: 30px;
 }
 
+.header-logo {
+    height: 30px; /* Adjust size as needed */
+    width: auto;
+    margin-left: auto;
+    padding-right: 20px;
+}
+
 @media (max-width: 768px) {
+    header {
+        padding: 0; /* Remove extra padding to keep the header size consistent */
+    }
+
     nav {
         flex-direction: column;
+        padding: 0; /* Remove left padding in mobile view */
     }
 
     nav .menu-icon {
         display: block;
+        position: relative; /* Make menu icon part of the normal document flow */
+        left: auto; /* Reset left position */
+        top: auto; /* Reset top position */
+        transform: none; /* Reset transform */
+        margin: 1rem; /* Add margin for spacing */
     }
 
     nav ul {
@@ -131,6 +172,8 @@ footer {
         display: none;
         width: 100%;
         text-align: left;
+        padding-left: 20pt; /* Reset padding in mobile view */
+        margin: 0; /* Reset margin in mobile view */
     }
 
     nav ul li {
@@ -147,5 +190,11 @@ footer {
 
     nav ul li .submenu li {
         padding-left: 1rem;
+    }
+
+    .header-logo {
+        height: 40px; /* Adjust size as needed */
+        width: auto;
+        margin-left: auto;
     }
 }
