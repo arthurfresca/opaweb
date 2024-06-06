@@ -17,6 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.addEventListener('click', (event) => {
+        submenuToggles.forEach(toggle => {
+            const submenu = toggle.nextElementSibling;
+            if (!toggle.contains(event.target) && !submenu.contains(event.target)) {
+                submenu.classList.remove('show');
+            }
+        });
+    });
+
     // Set up event listeners for each link
     links.forEach(link => {
         link.addEventListener('click', function(event) {
