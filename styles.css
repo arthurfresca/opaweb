@@ -197,15 +197,7 @@ footer {
         width: auto;
         margin-left: auto;
     }
-
-    .avatar-name {
-        display: flex;
-        align-items: center; /* Center vertically */
-    }
     
-    .avatar-name img {
-        margin-right: 10px; /* Add some spacing between the image and text */
-    }
     .video-container {
         position: relative;
         padding-bottom: 56.25%; /* 16:9 aspect ratio */
