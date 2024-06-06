@@ -1,33 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('nav ul li a');
-    const sections = document.querySelectorAll('main section');
+    const sections = document.querySelectorAll('[data-section]');
     const menuIcon = document.getElementById('menu-icon');
     const navLinks = document.getElementById('nav-links');
     const submenuToggles = document.querySelectorAll('.submenu-toggle');
-
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            if (!link.classList.contains('submenu-toggle')) {
-                e.preventDefault();
-
-                const sectionId = link.getAttribute('data-section');
-                sections.forEach(section => {
-                    section.classList.add('hidden');
-                });
-
-                document.getElementById(sectionId).classList.remove('hidden');
-
-                if (window.innerWidth <= 768) {
-                    navLinks.classList.remove('show');
-                }
-
-                // Hide all submenus when a link is clicked
-                document.querySelectorAll('.submenu').forEach(submenu => {
-                    submenu.classList.remove('show');
-                });
-            }
-        });
-    });
 
     menuIcon.addEventListener('click', () => {
         navLinks.classList.toggle('show');
@@ -40,4 +16,35 @@ document.addEventListener('DOMContentLoaded', () => {
             submenu.classList.toggle('show');
         });
     });
+
+    // Set up event listeners for each link
+    links.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const sectionId = this.getAttribute('data-section');
+            if(this.getAttribute('data-section')){
+                loadSection(sectionId);
+                history.pushState({ sectionId: sectionId }, '', `#${sectionId}`);
+            }
+        });
+    });
+
+    // Set the default section to load based on the URL
+    const defaultSectionId = window.location.hash.substring(1);
+    loadSection(defaultSectionId || 'what-we-are');
+
+    function loadSection(sectionId) {
+        const sectionElement = document.getElementById('section');
+        fetch(`sections/${sectionId}.html`)
+            .then(response => response.text())
+            .then(data => {
+                sectionElement.innerHTML = data;
+            });
+    }
+});
+
+// Listen for popstate event to handle back/forward button navigation
+window.addEventListener('popstate', () => {
+    const sectionId = history.state.sectionId;
+    loadSection(sectionId);
 });

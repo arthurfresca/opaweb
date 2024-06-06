@@ -197,4 +197,13 @@ footer {
         width: auto;
         margin-left: auto;
     }
+
+    .avatar-name {
+        display: flex;
+        align-items: center; /* Center vertically */
+    }
+    
+    .avatar-name img {
+        margin-right: 10px; /* Add some spacing between the image and text */
+    }
 }
