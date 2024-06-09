@@ -148,6 +148,12 @@ footer {
     padding-right: 20px;
 }
 
+.link-image {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
 @media (max-width: 768px) {
     header {
         padding: 0; /* Remove extra padding to keep the header size consistent */
@@ -214,4 +220,5 @@ footer {
         width: 100%;
         height: 100%;
     }
+    
 }
