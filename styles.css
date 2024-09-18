@@ -160,6 +160,24 @@ footer {
     margin-left: 10px;
 }
 
+.btn-red {
+    background-color: red;
+    color: white;
+}
+.btn-green {
+    background-color: green;
+    color: white;
+}
+.btn-grey {
+    background-color: grey;
+    color: white;
+}
+button {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     header {
         padding: 0; /* Remove extra padding to keep the header size consistent */

@@ -3,13 +3,22 @@ let oldAngels = [];
 let newAngels = [];
 
 function toggleAngel(faceitNick, hasAngel) {
-    const angelCell = document.getElementById(`angel-${faceitNick}`);
-
+    const angelButton = document.getElementById(`angel-${faceitNick}`);
+    
     if (hasAngel) {
+        // Change the button to grey and update text
+        angelButton.style.backgroundColor = 'grey';
+        angelButton.textContent = 'Anjo vai ser removido';
         oldAngels.push(faceitNick);
     } else {
+        // Revert button color and text
+        angelButton.style.backgroundColor = 'grey';
+        angelButton.textContent = 'Anjo vai ser adicionado';
         newAngels.push(faceitNick);
     }
+
+    // Toggle the angel state
+    hasAngel = !hasAngel;
 }
 
 function fetchPlayers() {
@@ -48,14 +57,17 @@ function fetchPlayers() {
         members.forEach(member => {
             const row = document.createElement('tr');
 
+            const buttonClass = member.hasAngel ? 'btn-red' : 'btn-green';
+            const buttonText = member.hasAngel ? 'Remover Anjo' : 'Adicionar Anjo';
+
             row.innerHTML = `
-                <td>${member.faceitNick}</td>
-                <td>
-                    <button onclick="toggleAngel('${member.faceitNick}', ${member.hasAngel})">
-                        ${member.hasAngel ? 'Remover Anjo' : 'Adicionar Anjo'}
-                    </button>
-                </td>
-            `;
+                    <td>${member.faceitNick}</td>
+                    <td>
+                        <button id="angel-${member.faceitNick}" class="${buttonClass}" onclick="toggleAngel('${member.faceitNick}', ${member.hasAngel})">
+                            ${buttonText}
+                        </button>
+                    </td>
+                `;
             tableBody.appendChild(row);
         });
     }   
