@@ -1,3 +1,66 @@
+let members = [];
+let oldAngels = [];
+let newAngels = [];
+
+function toggleAngel(faceitNick, hasAngel) {
+    const angelCell = document.getElementById(`angel-${faceitNick}`);
+
+    if (hasAngel) {
+        oldAngels.push(faceitNick);
+    } else {
+        newAngels.push(faceitNick);
+    }
+}
+
+function fetchPlayers() {
+    const adminKey = '123test123';  // Admin Key for authorization
+    const apiUrl = 'https://csabe-cb95c9877c4f.herokuapp.com/opa/admin/member';
+
+    // Fetch members from the API
+    try {
+        fetch(apiUrl, {
+            headers: { 'AdminKey': adminKey }
+        })
+        .then(response => {
+            // Check if the response is OK (status code 200-299)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Return the response as JSON
+            return response.json();
+        })
+        .then(data => {
+            members = data;  // Assign the fetched members data
+            populateTable();  // Call the function to populate the table
+        })
+        .catch(error => {
+            console.error('Error fetching members:', error);
+        });
+    } catch (error) {
+        console.error('Error fetching members:', error);
+    }
+
+    // Populate the table with member data
+    function populateTable() {
+        const tableBody = document.getElementById('memberTableBody');
+        tableBody.innerHTML = ''; // Clear the table
+
+        members.forEach(member => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${member.faceitNick}</td>
+                <td>
+                    <button onclick="toggleAngel('${member.faceitNick}', ${member.hasAngel})">
+                        ${member.hasAngel ? 'Remover Anjo' : 'Adicionar Anjo'}
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }   
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('nav ul li a');
     const sections = document.querySelectorAll('[data-section]');
@@ -48,8 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.text())
             .then(data => {
                 sectionElement.innerHTML = data;
+                if(sectionId === 'angels'){
+                    const saveAngelsbutton = document.getElementById('saveButton');
+                    if (saveAngelsbutton) {
+                        saveAngelsbutton.addEventListener('click', saveAngel);
+                    } else {
+                        console.error('Save button not found in the DOM');
+                    }
+                    fetchPlayers();
+                }
             });
     }
+
 });
 
 // Listen for popstate event to handle back/forward button navigation
@@ -57,3 +130,34 @@ window.addEventListener('popstate', () => {
     const sectionId = history.state.sectionId;
     loadSection(sectionId);
 });
+
+function saveAngel() {
+    const adminKey = '123test123';  // Admin Key for authorization
+    const saveAngelUrl = 'https://csabe-cb95c9877c4f.herokuapp.com/opa/admin/member/save-angel';
+
+    const payload = {
+        oldAngels: oldAngels,
+        newAngels: newAngels
+    };
+
+    fetch(saveAngelUrl, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error('Error saving changes');
+        }
+        return response.json(); // Return the parsed response if needed
+    })
+    .then(() => {
+        alert('Changes saved successfully!');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
