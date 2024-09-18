@@ -135,6 +135,12 @@ footer {
     width: 300px;
 }
 
+.centered-image-big {
+    display: block;
+    margin: 0 auto;
+    width: 700px;
+}
+
 .image-avatar {
     display: block;
     margin: 0 auto;
